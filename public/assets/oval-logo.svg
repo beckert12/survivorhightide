@@ -1,0 +1,14 @@
+<svg width="360" height="220" viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="180" cy="110" rx="174" ry="102" fill="#050605"/>
+  <ellipse cx="180" cy="110" rx="142" ry="78" fill="#55D3CC"/>
+  <path d="M36 98C78 86 118 87 160 98C200 109 242 109 324 96V128C272 139 226 136 178 128C128 120 82 123 36 132V98Z" fill="#F0B566"/>
+  <path d="M67 93C107 82 147 82 187 92C231 104 273 100 323 90L328 118C274 130 227 132 179 122C134 113 91 114 38 128L32 105C44 101 55 97 67 93Z" fill="#E8B05F"/>
+  <path d="M96 132C125 127 156 127 189 131C218 135 246 135 272 131" stroke="#050605" stroke-width="8" stroke-linecap="round"/>
+  <path d="M110 149C139 144 169 144 201 148C228 152 252 151 274 147" stroke="#050605" stroke-width="8" stroke-linecap="round"/>
+  <path d="M132 165C160 160 191 160 220 164" stroke="#050605" stroke-width="8" stroke-linecap="round"/>
+  <path d="M117 78C127 47 138 42 148 78C156 44 170 39 179 78C188 40 203 43 210 78C224 44 237 47 242 78" stroke="#073B1F" stroke-width="12" stroke-linecap="round"/>
+  <text x="180" y="42" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="24" font-weight="900" letter-spacing="2" fill="#FFF7E7">ONE MILLION</text>
+  <text x="180" y="117" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="41" font-weight="900" letter-spacing="10" fill="#FFF7E7">SURVIVOR</text>
+  <text x="180" y="145" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="22" font-weight="900" letter-spacing="3" fill="#FFF7E7">HIGH TIDE</text>
+  <text x="180" y="198" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="34" font-weight="900" letter-spacing="8" fill="#FFF7E7">HEARTS</text>
+</svg>
