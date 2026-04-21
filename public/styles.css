@@ -478,6 +478,18 @@ audio {
   height: 26px;
 }
 
+.connect-icon.show-art-icon {
+  overflow: hidden;
+  border-color: rgba(255, 243, 208, 0.95);
+  background: var(--sand-light);
+}
+
+.connect-icon.show-art-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .connect-label {
   margin-bottom: 0.5rem;
   color: var(--sun);
