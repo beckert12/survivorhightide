@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: survivor-high-tide
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: PODCAST_RSS_URL
+        value: https://anchor.fm/s/fab26970/podcast/rss
