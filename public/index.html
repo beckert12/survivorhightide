@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Survivor High Tide is a podcast following the moves, blindsides, and beachside chaos of Survivor."
+    />
+    <title>Survivor High Tide</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Survivor High Tide home">
+        <img src="/assets/logo-placeholder.svg" alt="" />
+        <span>Survivor High Tide</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#episodes">Episodes</a>
+        <a href="#about">About</a>
+        <a href="#listen">Listen</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-media" aria-hidden="true">
+          <img src="/assets/hosts-placeholder.svg" alt="" />
+        </div>
+        <div class="hero-copy">
+          <img class="hero-logo" src="/assets/logo-placeholder.svg" alt="Survivor High Tide" />
+          <p class="kicker">A Survivor podcast riding every vote, idol, and blindside.</p>
+          <h1>Survivor High Tide</h1>
+          <p class="lede">
+            Join Ben and Oscar for sharp, funny, fan-first coverage of Survivor. Each week we break
+            down the strategy, the social reads, the edit, and the moments that make the game worth
+            arguing about.
+          </p>
+          <div class="actions" id="listen">
+            <a class="button primary" href="#episodes">Browse Episodes</a>
+            <a class="button secondary" href="mailto:hello@survivorhightide.com">Contact the Pod</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="latest-band" aria-labelledby="latest-title">
+        <div>
+          <p class="section-label">Latest Episode</p>
+          <h2 id="latest-title">Start with the newest tide report</h2>
+        </div>
+        <article id="latest-episode" class="latest-card"></article>
+      </section>
+
+      <section id="episodes" class="episodes-section" aria-labelledby="episodes-title">
+        <div class="section-heading">
+          <p class="section-label">Episode Repository</p>
+          <h2 id="episodes-title">All Episodes</h2>
+          <p>
+            Every published episode is pulled from the Survivor High Tide RSS feed and collected
+            here with playable audio when the feed provides it.
+          </p>
+        </div>
+        <div class="episode-tools" aria-label="Episode filters">
+          <button class="filter-button active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="recap">Recaps</button>
+          <button class="filter-button" type="button" data-filter="preview">Previews</button>
+          <button class="filter-button" type="button" data-filter="bonus">Bonus</button>
+        </div>
+        <div id="episode-grid" class="episode-grid"></div>
+      </section>
+
+      <section id="about" class="about-section" aria-labelledby="about-title">
+        <div class="about-copy">
+          <p class="section-label">About the Show</p>
+          <h2 id="about-title">Two fans, one beach, endless strategy reads.</h2>
+          <p>
+            Survivor High Tide is built for viewers who want more than a recap. We track the vote
+            math, call out winner edits, debate risky moves, and keep the tone loose enough for the
+            group chat.
+          </p>
+        </div>
+        <div class="host-list" aria-label="Hosts">
+          <article>
+            <span>Ben</span>
+            <p>Strategy, edits, power rankings, and the occasional overconfident prediction.</p>
+          </article>
+          <article>
+            <span>Oscar</span>
+            <p>Social reads, chaos appreciation, and keeping the tribe honest.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Survivor High Tide</p>
+      <p>Episodes load from the show RSS feed. Replace the host image in <code>public/assets</code> when ready.</p>
+    </footer>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

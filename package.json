@@ -1,0 +1,21 @@
+{
+  "name": "survivor-high-tide",
+  "version": "1.0.0",
+  "description": "Landing page and episode repository for the Survivor High Tide podcast.",
+  "main": "src/server.js",
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-cron": "^3.0.3"
+  }
+}

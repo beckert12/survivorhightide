@@ -1,0 +1,22 @@
+export const AIRPORTS = [
+  { code: 'IAH', city: 'Houston', name: 'George Bush Intercontinental', priority: true },
+  { code: 'HOU', city: 'Houston', name: 'William P. Hobby', priority: true },
+  { code: 'AUS', city: 'Austin', name: 'Austin-Bergstrom International' },
+  { code: 'DAL', city: 'Dallas', name: 'Dallas Love Field' },
+  { code: 'DFW', city: 'Dallas-Fort Worth', name: 'Dallas/Fort Worth International' },
+  { code: 'LAX', city: 'Los Angeles', name: 'Los Angeles International' },
+  { code: 'SFO', city: 'San Francisco', name: 'San Francisco International' },
+  { code: 'SEA', city: 'Seattle', name: 'Seattle-Tacoma International' },
+  { code: 'JFK', city: 'New York', name: 'John F. Kennedy International' },
+  { code: 'EWR', city: 'Newark', name: 'Newark Liberty International' },
+  { code: 'LGA', city: 'New York', name: 'LaGuardia' },
+  { code: 'ORD', city: 'Chicago', name: "O'Hare International" },
+  { code: 'MIA', city: 'Miami', name: 'Miami International' },
+  { code: 'ATL', city: 'Atlanta', name: 'Hartsfield-Jackson Atlanta International' },
+  { code: 'BOS', city: 'Boston', name: 'Logan International' },
+  { code: 'DEN', city: 'Denver', name: 'Denver International' },
+  { code: 'PHX', city: 'Phoenix', name: 'Phoenix Sky Harbor International' },
+  { code: 'LAS', city: 'Las Vegas', name: 'Harry Reid International' },
+  { code: 'MSY', city: 'New Orleans', name: 'Louis Armstrong New Orleans International' },
+  { code: 'MCO', city: 'Orlando', name: 'Orlando International' }
+];
