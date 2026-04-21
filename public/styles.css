@@ -542,6 +542,54 @@ audio {
   line-height: 1.65;
 }
 
+.contact-section {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  gap: clamp(1rem, 4vw, 3rem);
+  align-items: center;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1rem, 5vw, 4rem);
+  background:
+    linear-gradient(90deg, rgba(13, 79, 102, 0.94), rgba(66, 184, 200, 0.78)),
+    var(--blue-dark);
+  color: var(--white);
+}
+
+.contact-section h2 {
+  max-width: 12ch;
+  color: var(--sand-light);
+}
+
+.contact-section p:not(.section-label) {
+  max-width: 60ch;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.65;
+}
+
+.contact-button {
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 243, 208, 0.58);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 243, 208, 0.13);
+  color: var(--white);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.contact-button:hover {
+  background: rgba(255, 243, 208, 0.22);
+}
+
+.contact-button img {
+  width: 22px;
+  height: 22px;
+}
+
 code {
   border-radius: 5px;
   padding: 0.12rem 0.28rem;
@@ -659,6 +707,7 @@ code {
   .hero,
   .latest-band,
   .connect-grid,
+  .contact-section,
   .about-section {
     grid-template-columns: 1fr;
   }
