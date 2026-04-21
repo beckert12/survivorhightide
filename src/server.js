@@ -157,6 +157,14 @@ app.get('/api/episodes', async (_req, res, next) => {
   }
 });
 
+app.get('/episodes.json', async (_req, res, next) => {
+  try {
+    res.json(await loadPodcastEpisodes());
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use((error, _req, res, _next) => {
   const status = error.status || 500;
   res.status(status).json({ error: error.message || 'Unexpected error' });

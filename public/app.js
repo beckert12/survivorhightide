@@ -90,7 +90,7 @@ function renderPodcastMeta(podcast) {
 async function loadEpisodesFromRss() {
   try {
     latestEpisodeEl.innerHTML = '<p>Loading the latest episodes...</p>';
-    const response = await fetch('/api/episodes');
+    const response = await fetch('/episodes.json');
     if (!response.ok) throw new Error('Episode feed request failed.');
 
     const data = await response.json();
