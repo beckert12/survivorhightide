@@ -12,16 +12,25 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Survivor High Tide home">
+      <a class="brand" href="/" aria-label="Survivor High Tide home">
         <img src="/assets/logo-placeholder.svg" alt="" />
         <span>Survivor High Tide</span>
       </a>
-      <nav aria-label="Main navigation">
-        <a href="#episodes">Episodes</a>
-        <a href="#connect">Shop</a>
-        <a href="#about">About</a>
-        <a href="#listen">Listen</a>
-      </nav>
+      <div class="header-links">
+        <nav aria-label="Main navigation">
+          <a href="/listen">Listen</a>
+          <a href="/shop">Shop</a>
+          <a href="/about">About</a>
+        </nav>
+        <div class="social-nav" aria-label="Social links">
+          <a href="https://www.instagram.com/survivorhightide/" target="_blank" rel="noreferrer" aria-label="Survivor High Tide on Instagram">
+            <img src="/assets/instagram.svg" alt="" />
+          </a>
+          <a href="https://www.tiktok.com/@survivorhightide" target="_blank" rel="noreferrer" aria-label="Survivor High Tide on TikTok">
+            <img src="/assets/tiktok.svg" alt="" />
+          </a>
+        </div>
+      </div>
     </header>
 
     <main id="top">
@@ -39,7 +48,7 @@
             arguing about.
           </p>
           <div class="actions" id="listen">
-            <a class="button primary" href="#episodes">Browse Episodes</a>
+            <a class="button primary" href="/listen">Browse Episodes</a>
             <a
               class="button secondary"
               href="https://www.redbubble.com/shop/?query=Survivor%20High%20Tide"
@@ -58,24 +67,6 @@
           <h2 id="latest-title">Start with the newest tide report</h2>
         </div>
         <article id="latest-episode" class="latest-card"></article>
-      </section>
-
-      <section id="episodes" class="episodes-section" aria-labelledby="episodes-title">
-        <div class="section-heading">
-          <p class="section-label">Episode Repository</p>
-          <h2 id="episodes-title">All Episodes</h2>
-          <p>
-            Every published episode is pulled from the Survivor High Tide RSS feed and collected
-            here with playable audio when the feed provides it.
-          </p>
-        </div>
-        <div class="episode-tools" aria-label="Episode filters">
-          <button class="filter-button active" type="button" data-filter="all">All</button>
-          <button class="filter-button" type="button" data-filter="recap">Recaps</button>
-          <button class="filter-button" type="button" data-filter="preview">Previews</button>
-          <button class="filter-button" type="button" data-filter="bonus">Bonus</button>
-        </div>
-        <div id="episode-grid" class="episode-grid"></div>
       </section>
 
       <section id="connect" class="connect-section" aria-labelledby="connect-title">
@@ -105,7 +96,7 @@
             target="_blank"
             rel="noreferrer"
           >
-            <span class="connect-icon" aria-hidden="true">IG</span>
+            <span class="connect-icon" aria-hidden="true"><img src="/assets/instagram.svg" alt="" /></span>
             <span class="connect-label">Instagram</span>
             <strong>@survivorhightide</strong>
             <span>Episode posts, guest drops, and season chaos.</span>
@@ -116,7 +107,7 @@
             target="_blank"
             rel="noreferrer"
           >
-            <span class="connect-icon" aria-hidden="true">TT</span>
+            <span class="connect-icon" aria-hidden="true"><img src="/assets/tiktok.svg" alt="" /></span>
             <span class="connect-label">TikTok</span>
             <strong>@survivorhightide</strong>
             <span>Short takes, clips, and quick-hit Survivor debates.</span>

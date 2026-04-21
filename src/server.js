@@ -10,6 +10,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+app.get('/listen', (_req, res) => {
+  res.sendFile('listen.html', { root: 'public' });
+});
+
+app.get('/shop', (_req, res) => {
+  res.sendFile('shop.html', { root: 'public' });
+});
+
+app.get('/about', (_req, res) => {
+  res.sendFile('about.html', { root: 'public' });
+});
+
 const PODCAST_RSS_URL = process.env.PODCAST_RSS_URL || 'https://anchor.fm/s/fab26970/podcast/rss';
 const RSS_CACHE_MS = 15 * 60 * 1000;
 let episodeCache = {

@@ -77,6 +77,12 @@ a {
   white-space: nowrap;
 }
 
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 nav {
   display: flex;
   align-items: center;
@@ -88,6 +94,38 @@ nav {
 
 nav a:hover {
   color: var(--blue-dark);
+}
+
+nav a.active {
+  color: var(--blue-dark);
+}
+
+.social-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.social-nav a {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(13, 79, 102, 0.18);
+  border-radius: 50%;
+  background: rgba(116, 199, 223, 0.14);
+  color: var(--blue-dark);
+}
+
+.social-nav a:hover {
+  border-color: var(--blue-deep);
+  background: rgba(116, 199, 223, 0.26);
+}
+
+.social-nav img {
+  width: 20px;
+  height: 20px;
 }
 
 .hero {
@@ -233,6 +271,41 @@ h3 {
   padding: clamp(3rem, 7vw, 6rem) clamp(1rem, 5vw, 4rem);
 }
 
+.page-hero {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1rem, 5vw, 4rem);
+  background:
+    linear-gradient(115deg, rgba(13, 79, 102, 0.96), rgba(116, 199, 223, 0.62)),
+    var(--blue-dark);
+  color: var(--white);
+}
+
+.page-hero h1,
+.about-section h1,
+.connect-section h1 {
+  max-width: 12ch;
+  margin-bottom: 1rem;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.page-hero p:not(.section-label),
+.connect-section .section-heading p:not(.section-label) {
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.65;
+}
+
+.listen-hero {
+  background:
+    linear-gradient(115deg, rgba(13, 79, 102, 0.98), rgba(16, 45, 26, 0.66)),
+    var(--blue-dark);
+}
+
 .latest-band {
   display: grid;
   grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
@@ -301,6 +374,10 @@ audio {
     var(--foam);
 }
 
+.episodes-section.standalone {
+  min-height: 60vh;
+}
+
 .connect-section {
   position: relative;
   overflow: hidden;
@@ -332,6 +409,13 @@ audio {
 
 .connect-section .section-heading p:not(.section-label) {
   color: rgba(255, 255, 255, 0.78);
+}
+
+.connect-section.full-page {
+  min-height: calc(100svh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .connect-grid {
@@ -387,6 +471,11 @@ audio {
   color: var(--sand-light);
   font-size: 0.82rem;
   font-weight: 900;
+}
+
+.connect-icon img {
+  width: 26px;
+  height: 26px;
 }
 
 .connect-label {
@@ -484,9 +573,14 @@ code {
   display: grid;
   grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
   gap: clamp(1rem, 4vw, 3rem);
+  align-items: center;
   background:
     linear-gradient(90deg, rgba(255, 243, 208, 0.94), rgba(116, 199, 223, 0.28)),
     var(--sand-light);
+}
+
+.about-section.full-page {
+  min-height: calc(100svh - 120px);
 }
 
 .host-list {
@@ -527,6 +621,12 @@ code {
     flex-direction: column;
   }
 
+  .header-links {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .hero,
   .latest-band,
   .connect-grid,
@@ -561,6 +661,10 @@ code {
 
   .brand span {
     white-space: normal;
+  }
+
+  .social-nav {
+    width: 100%;
   }
 
   .host-list,

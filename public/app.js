@@ -17,7 +17,6 @@ const episodeGridEl = document.querySelector('#episode-grid');
 const filterButtons = document.querySelectorAll('.filter-button');
 const heroLogoEl = document.querySelector('.hero-logo');
 const brandLogoEl = document.querySelector('.brand img');
-const ledeEl = document.querySelector('.lede');
 
 let episodes = fallbackEpisodes;
 
@@ -65,11 +64,13 @@ function episodeMarkup(episode, headingLevel = 'h3') {
 }
 
 function renderLatestEpisode() {
+  if (!latestEpisodeEl) return;
   const latest = episodes[0];
   latestEpisodeEl.innerHTML = episodeMarkup(latest, 'h3');
 }
 
 function renderEpisodes(filter = 'all') {
+  if (!episodeGridEl) return;
   const visibleEpisodes =
     filter === 'all' ? episodes : episodes.filter((episode) => episode.type === filter);
 
@@ -81,15 +82,21 @@ function renderEpisodes(filter = 'all') {
 }
 
 function renderPodcastMeta(podcast) {
-  if (podcast?.image) {
+  if (podcast?.image && heroLogoEl) {
     heroLogoEl.src = podcast.image;
+  }
+
+  if (podcast?.image && brandLogoEl) {
     brandLogoEl.src = podcast.image;
   }
 }
 
 async function loadEpisodesFromRss() {
   try {
-    latestEpisodeEl.innerHTML = '<p>Loading the latest episodes...</p>';
+    if (latestEpisodeEl) {
+      latestEpisodeEl.innerHTML = '<p>Loading the latest episodes...</p>';
+    }
+
     const response = await fetch('/episodes.json');
     if (!response.ok) throw new Error('Episode feed request failed.');
 
