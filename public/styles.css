@@ -189,6 +189,12 @@ nav a.active {
   box-shadow: var(--shadow);
 }
 
+.hero-logo-img {
+  width: min(100%, 420px);
+  box-shadow: none;
+  border-radius: 0;
+}
+
 .hero-copy {
   position: relative;
   z-index: 1;
