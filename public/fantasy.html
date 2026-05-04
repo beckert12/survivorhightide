@@ -64,14 +64,6 @@
             >
               Join the League
             </a>
-            <a
-              class="button secondary fantasy-cta"
-              href="https://www.fantasysurvivorgame.com/standings.html?groupcode=827D-4FD8-D062"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open Full Standings ↗
-            </a>
           </div>
         </div>
         <div class="fantasy-group-code" aria-label="League group code">
@@ -85,26 +77,26 @@
         <div class="section-heading">
           <p class="section-label">Live Standings</p>
           <h2 id="standings-title">The leaderboard.</h2>
-          <p>
-            Standings are pulled live from Fantasy Survivor Game and update after each episode.
-          </p>
+          <p id="standings-updated">Loading standings…</p>
         </div>
-        <div class="standings-frame-wrap">
-          <iframe
-            id="standings-frame"
-            src="https://www.fantasysurvivorgame.com/standings.html?groupcode=827D-4FD8-D062"
-            title="Survivor High Tide Fantasy Standings"
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          ></iframe>
-          <p class="standings-fallback">
-            Can't see the standings?
-            <a
-              href="https://www.fantasysurvivorgame.com/standings.html?groupcode=827D-4FD8-D062"
-              target="_blank"
-              rel="noreferrer"
-            >Open them on Fantasy Survivor Game ↗</a>
-          </p>
+        <div class="standings-table-wrap">
+          <table class="standings-table" aria-label="Fantasy Survivor standings">
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Player</th>
+                <th scope="col">Team Name</th>
+                <th scope="col">Survivor</th>
+                <th scope="col">Vote</th>
+                <th scope="col">Out</th>
+                <th scope="col">Week</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody id="standings-body">
+              <tr><td colspan="8" class="standings-loading">Loading…</td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </main>
@@ -113,5 +105,64 @@
       <p>Survivor High Tide</p>
       <p><a href="mailto:survivorhightide@gmail.com">survivorhightide@gmail.com</a></p>
     </footer>
+
+    <script>
+      const MEDALS = ['🥇', '🥈', '🥉'];
+
+      function formatDate(iso) {
+        return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(iso));
+      }
+
+      function parsePlayer(raw) {
+        const parts = raw.split(/\n|\t/).map(s => s.trim()).filter(Boolean);
+        return { team: parts[0] || raw, name: parts[1] || '' };
+      }
+
+      function renderStandings(data) {
+        const tbody = document.getElementById('standings-body');
+        const updated = document.getElementById('standings-updated');
+
+        updated.textContent = `Updated ${formatDate(data.updatedAt)} · refreshes every 30 min`;
+
+        if (!data.standings || data.standings.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="standings-loading">No standings yet — check back after the next episode.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.standings.map((p, i) => {
+          const { team, name } = parsePlayer(p.player);
+          const medal = MEDALS[i] ?? '';
+          const rowClass = i === 0 ? 'rank-gold' : i === 1 ? 'rank-silver' : i === 2 ? 'rank-bronze' : '';
+          return `<tr class="${rowClass}">
+            <td class="rank-cell">${medal || p.rank}</td>
+            <td class="name-cell">${escHtml(name)}</td>
+            <td class="team-cell">${escHtml(team)}</td>
+            <td>${p.survivor}</td>
+            <td>${p.vote}</td>
+            <td>${p.out}</td>
+            <td>${p.week}</td>
+            <td class="total-cell">${p.total}</td>
+          </tr>`;
+        }).join('');
+      }
+
+      function escHtml(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      async function loadStandings() {
+        try {
+          const res = await fetch('/api/fantasy-standings');
+          if (!res.ok) throw new Error('fetch failed');
+          renderStandings(await res.json());
+        } catch {
+          document.getElementById('standings-body').innerHTML =
+            '<tr><td colspan="8" class="standings-loading">Could not load standings — try refreshing.</td></tr>';
+          document.getElementById('standings-updated').textContent = '';
+        }
+      }
+
+      loadStandings();
+    </script>
   </body>
 </html>
