@@ -69,36 +69,29 @@ async function loadFantasyStandings() {
     throw Object.assign(new Error('Fantasy credentials not configured. Add FANTASY_EMAIL and FANTASY_PASSWORD in Render environment variables.'), { status: 503 });
   }
 
-  // GET the login page first to establish a session cookie
-  const loginPageRes = await axios.get(`${FSG_BASE}/login.html`, { timeout: 15000 });
-  const initialCookies = (loginPageRes.headers['set-cookie'] || []).map((c) => c.split(';')[0]).join('; ');
+  const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
+  // POST login — stop at the 302 so we can grab the Set-Cookie before axios discards it
   const loginRes = await axios.post(
     `${FSG_BASE}/login.html`,
     new URLSearchParams({ email, password }).toString(),
     {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        ...(initialCookies && { Cookie: initialCookies }),
-      },
-      maxRedirects: 5,
-      validateStatus: (s) => s < 500,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': UA },
+      maxRedirects: 0,
+      validateStatus: (s) => s >= 200 && s < 400,
       timeout: 15000,
     }
   );
 
-  const allCookies = [
-    ...(loginPageRes.headers['set-cookie'] || []),
-    ...(loginRes.headers['set-cookie'] || []),
-  ];
-  if (!allCookies.length) {
+  const rawCookies = loginRes.headers['set-cookie'] || [];
+  if (!rawCookies.length) {
     throw Object.assign(new Error('Login failed — check FANTASY_EMAIL and FANTASY_PASSWORD.'), { status: 401 });
   }
-  const cookieStr = allCookies.map((c) => c.split(';')[0]).join('; ');
+  const cookieStr = rawCookies.map((c) => c.split(';')[0]).join('; ');
 
   const standingsRes = await axios.get(
     `${FSG_BASE}/standings.html?groupcode=${FSG_GROUP_CODE}`,
-    { headers: { Cookie: cookieStr }, timeout: 15000 }
+    { headers: { Cookie: cookieStr, 'User-Agent': UA }, timeout: 15000 }
   );
 
   const standings = parseStandingsHtml(standingsRes.data);
