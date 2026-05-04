@@ -69,22 +69,32 @@ async function loadFantasyStandings() {
     throw Object.assign(new Error('Fantasy credentials not configured. Add FANTASY_EMAIL and FANTASY_PASSWORD in Render environment variables.'), { status: 503 });
   }
 
+  // GET the login page first to establish a session cookie
+  const loginPageRes = await axios.get(`${FSG_BASE}/login.html`, { timeout: 15000 });
+  const initialCookies = (loginPageRes.headers['set-cookie'] || []).map((c) => c.split(';')[0]).join('; ');
+
   const loginRes = await axios.post(
     `${FSG_BASE}/login.html`,
     new URLSearchParams({ email, password }).toString(),
     {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        ...(initialCookies && { Cookie: initialCookies }),
+      },
       maxRedirects: 5,
       validateStatus: (s) => s < 500,
       timeout: 15000,
     }
   );
 
-  const rawCookies = loginRes.headers['set-cookie'];
-  if (!rawCookies?.length) {
+  const allCookies = [
+    ...(loginPageRes.headers['set-cookie'] || []),
+    ...(loginRes.headers['set-cookie'] || []),
+  ];
+  if (!allCookies.length) {
     throw Object.assign(new Error('Login failed — check FANTASY_EMAIL and FANTASY_PASSWORD.'), { status: 401 });
   }
-  const cookieStr = rawCookies.map((c) => c.split(';')[0]).join('; ');
+  const cookieStr = allCookies.map((c) => c.split(';')[0]).join('; ');
 
   const standingsRes = await axios.get(
     `${FSG_BASE}/standings.html?groupcode=${FSG_GROUP_CODE}`,
