@@ -14,6 +14,10 @@ app.get('/listen', (_req, res) => {
   res.sendFile('listen.html', { root: 'public' });
 });
 
+app.get('/fantasy', (_req, res) => {
+  res.sendFile('fantasy.html', { root: 'public' });
+});
+
 app.get('/shop', (_req, res) => {
   res.sendFile('shop.html', { root: 'public' });
 });

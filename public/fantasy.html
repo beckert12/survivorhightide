@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Join the Survivor High Tide Fantasy Survivor league and track live standings each week."
+    />
+    <title>Fantasy | Survivor High Tide</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Survivor High Tide home">
+        <img src="/assets/logo-placeholder.svg" alt="" />
+        <span>Survivor High Tide</span>
+      </a>
+      <div class="header-links">
+        <nav aria-label="Main navigation">
+          <a href="/listen">Listen</a>
+          <a class="active" href="/fantasy">Fantasy</a>
+          <a href="/shop">Shop</a>
+          <a href="/about">About</a>
+        </nav>
+        <div class="social-nav" aria-label="Social links">
+          <a href="https://www.instagram.com/survivorhightide/" target="_blank" rel="noreferrer" aria-label="Survivor High Tide on Instagram">
+            <img src="/assets/instagram.svg" alt="" />
+          </a>
+          <a href="https://www.tiktok.com/@survivorhightide" target="_blank" rel="noreferrer" aria-label="Survivor High Tide on TikTok">
+            <img src="/assets/tiktok.svg" alt="" />
+          </a>
+          <a href="mailto:survivorhightide@gmail.com" aria-label="Email Survivor High Tide">
+            <img src="/assets/mail.svg" alt="" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero fantasy-hero" aria-labelledby="fantasy-title">
+        <p class="section-label">Fantasy Survivor</p>
+        <h1 id="fantasy-title">Play the game.</h1>
+        <p>
+          Pick your Survivor contestants, rack up points, and see if you can out-predict Ben and
+          Oscar. Live standings update each episode.
+        </p>
+      </section>
+
+      <section class="fantasy-join-band" aria-labelledby="join-title">
+        <div class="fantasy-join-copy">
+          <p class="section-label">Join the League</p>
+          <h2 id="join-title">Get in on Season 50.</h2>
+          <p>
+            We run a group league on Fantasy Survivor Game. Sign up, draft your picks, and compete
+            against the rest of the High Tide community all season long.
+          </p>
+          <div class="fantasy-join-actions">
+            <a
+              class="button primary fantasy-cta"
+              href="https://www.fantasysurvivorgame.com/group-join.html?groupcode=827D-4FD8-D062"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Join the League
+            </a>
+            <a
+              class="button secondary fantasy-cta"
+              href="https://www.fantasysurvivorgame.com/standings.html?groupcode=827D-4FD8-D062"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open Full Standings ↗
+            </a>
+          </div>
+        </div>
+        <div class="fantasy-group-code" aria-label="League group code">
+          <p class="section-label">Group Code</p>
+          <p class="fantasy-code">827D&#8209;4FD8&#8209;D062</p>
+          <p>Enter this code on Fantasy Survivor Game to join the High Tide league.</p>
+        </div>
+      </section>
+
+      <section class="fantasy-standings-section" aria-labelledby="standings-title">
+        <div class="section-heading">
+          <p class="section-label">Live Standings</p>
+          <h2 id="standings-title">The leaderboard.</h2>
+          <p>
+            Standings are pulled live from Fantasy Survivor Game and update after each episode.
+          </p>
+        </div>
+        <div class="standings-frame-wrap">
+          <iframe
+            id="standings-frame"
+            src="https://www.fantasysurvivorgame.com/standings.html?groupcode=827D-4FD8-D062"
+            title="Survivor High Tide Fantasy Standings"
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          ></iframe>
+          <p class="standings-fallback">
+            Can't see the standings?
+            <a
+              href="https://www.fantasysurvivorgame.com/standings.html?groupcode=827D-4FD8-D062"
+              target="_blank"
+              rel="noreferrer"
+            >Open them on Fantasy Survivor Game ↗</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Survivor High Tide</p>
+      <p><a href="mailto:survivorhightide@gmail.com">survivorhightide@gmail.com</a></p>
+    </footer>
+  </body>
+</html>
