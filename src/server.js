@@ -27,6 +27,83 @@ app.get('/about', (_req, res) => {
 });
 
 const PODCAST_RSS_URL = process.env.PODCAST_RSS_URL || 'https://anchor.fm/s/fab26970/podcast/rss';
+
+const FSG_BASE = 'https://www.fantasysurvivorgame.com';
+const FSG_GROUP_CODE = '827D-4FD8-D062';
+const FANTASY_CACHE_MS = 30 * 60 * 1000;
+let fantasyCache = { fetchedAt: 0, data: null };
+
+function parseStandingsHtml(html) {
+  const tbodyMatch = html.match(/<tbody>([\s\S]*?)<\/tbody>/i);
+  if (!tbodyMatch) return [];
+  const rowRe = /<tr[\s\S]*?<\/tr>/gi;
+  const cellRe = /<td[^>]*>([\s\S]*?)<\/td>/gi;
+  const rows = [...tbodyMatch[1].matchAll(rowRe)];
+  return rows.flatMap((rowMatch) => {
+    const cells = [...rowMatch[0].matchAll(cellRe)].map((m) =>
+      m[1].replace(/<[^>]+>/g, '').trim()
+    );
+    if (cells.length < 8 || !cells[0] || Number.isNaN(Number(cells[0]))) return [];
+    return [{
+      rank: Number(cells[0]),
+      player: cells[1],
+      survivor: Number(cells[2]) || 0,
+      vote: Number(cells[3]) || 0,
+      sole: Number(cells[4]) || 0,
+      out: Number(cells[5]) || 0,
+      week: Number(cells[6]) || 0,
+      total: Number(cells[7]) || 0,
+    }];
+  });
+}
+
+async function loadFantasyStandings() {
+  const now = Date.now();
+  if (fantasyCache.data && now - fantasyCache.fetchedAt < FANTASY_CACHE_MS) {
+    return fantasyCache.data;
+  }
+
+  const email = process.env.FANTASY_EMAIL;
+  const password = process.env.FANTASY_PASSWORD;
+  if (!email || !password) {
+    throw Object.assign(new Error('Fantasy credentials not configured. Add FANTASY_EMAIL and FANTASY_PASSWORD in Render environment variables.'), { status: 503 });
+  }
+
+  const loginRes = await axios.post(
+    `${FSG_BASE}/login.html`,
+    new URLSearchParams({ email, password }).toString(),
+    {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      maxRedirects: 5,
+      validateStatus: (s) => s < 500,
+      timeout: 15000,
+    }
+  );
+
+  const rawCookies = loginRes.headers['set-cookie'];
+  if (!rawCookies?.length) {
+    throw Object.assign(new Error('Login failed — check FANTASY_EMAIL and FANTASY_PASSWORD.'), { status: 401 });
+  }
+  const cookieStr = rawCookies.map((c) => c.split(';')[0]).join('; ');
+
+  const standingsRes = await axios.get(
+    `${FSG_BASE}/standings.html?groupcode=${FSG_GROUP_CODE}`,
+    { headers: { Cookie: cookieStr }, timeout: 15000 }
+  );
+
+  const standings = parseStandingsHtml(standingsRes.data);
+  const data = { updatedAt: new Date().toISOString(), groupCode: FSG_GROUP_CODE, standings };
+  fantasyCache = { fetchedAt: now, data };
+  return data;
+}
+
+app.get('/api/fantasy-standings', async (_req, res, next) => {
+  try {
+    res.json(await loadFantasyStandings());
+  } catch (error) {
+    next(error);
+  }
+});
 const RSS_CACHE_MS = 15 * 60 * 1000;
 let episodeCache = {
   fetchedAt: 0,
