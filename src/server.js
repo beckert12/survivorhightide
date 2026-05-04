@@ -41,7 +41,8 @@ function parseStandingsHtml(html) {
   const rows = [...tbodyMatch[1].matchAll(rowRe)];
   return rows.flatMap((rowMatch) => {
     const cells = [...rowMatch[0].matchAll(cellRe)].map((m) =>
-      m[1].replace(/<[^>]+>/g, '').trim()
+      m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#039;/g, "'")
     );
     if (cells.length < 8 || !cells[0] || Number.isNaN(Number(cells[0]))) return [];
     return [{
