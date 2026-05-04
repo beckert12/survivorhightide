@@ -670,6 +670,14 @@ code {
   padding: 1.2rem;
 }
 
+.host-list article img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 .host-list span {
   display: block;
   margin-bottom: 0.5rem;
