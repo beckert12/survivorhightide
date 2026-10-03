@@ -33,27 +33,50 @@ const FSG_GROUP_CODE = '827D-4FD8-D062';
 const FANTASY_CACHE_MS = 30 * 60 * 1000;
 let fantasyCache = { fetchedAt: 0, data: null };
 
+function decodeEntities(value) {
+  return value
+    .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&rsquo;/g, '\u2019')
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
+
+// Text pieces of a cell, split wherever there was a tag (keeps tribe and player name separate)
+function cellParts(cellHtml) {
+  return cellHtml
+    .split(/<[^>]+>/)
+    .map((part) => decodeEntities(part.replace(/\s+/g, ' ').trim()))
+    .filter(Boolean);
+}
+
 function parseStandingsHtml(html) {
-  const tbodyMatch = html.match(/<tbody>([\s\S]*?)<\/tbody>/i);
-  if (!tbodyMatch) return [];
-  const rowRe = /<tr[\s\S]*?<\/tr>/gi;
-  const cellRe = /<td[^>]*>([\s\S]*?)<\/td>/gi;
-  const rows = [...tbodyMatch[1].matchAll(rowRe)];
-  return rows.flatMap((rowMatch) => {
-    const cells = [...rowMatch[0].matchAll(cellRe)].map((m) =>
-      m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
-        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#039;/g, "'")
-    );
-    if (cells.length < 8 || !cells[0] || Number.isNaN(Number(cells[0]))) return [];
+  const tableMatch = html.match(/<thead[\s\S]*?<\/thead>\s*<tbody>([\s\S]*?)<\/tbody>/i);
+  if (!tableMatch) return [];
+
+  // Map columns by header name so new/reordered columns on FSG don't shift the numbers
+  const headers = [...tableMatch[0].matchAll(/<th[^>]*>([\s\S]*?)<\/th>/gi)]
+    .map((m) => cellParts(m[1]).join(' ').toLowerCase());
+  const col = (name) => headers.findIndex((h) => h.startsWith(name));
+  const idx = {
+    rank: col('rank'), player: col('tribe') >= 0 ? col('tribe') : col('player'),
+    survivor: col('survivor'), vote: col('vote'), sole: col('sole'),
+    out: col('out'), week: col('week'), total: col('total'),
+  };
+  const num = (cells, key) => (idx[key] >= 0 ? Number(cells[idx[key]]?.join(' ')) || 0 : 0);
+
+  return [...tableMatch[1].matchAll(/<tr[\s\S]*?<\/tr>/gi)].flatMap((rowMatch) => {
+    const cells = [...rowMatch[0].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((m) => cellParts(m[1]));
+    const rank = Number(cells[idx.rank]?.[0]);
+    if (cells.length < headers.length || Number.isNaN(rank)) return [];
+    const playerParts = cells[idx.player] || [];
     return [{
-      rank: Number(cells[0]),
-      player: cells[1],
-      survivor: Number(cells[2]) || 0,
-      vote: Number(cells[3]) || 0,
-      sole: Number(cells[4]) || 0,
-      out: Number(cells[5]) || 0,
-      week: Number(cells[6]) || 0,
-      total: Number(cells[7]) || 0,
+      rank,
+      team: playerParts[0] || '',
+      player: playerParts.slice(1).join(' ') || playerParts[0] || '',
+      survivor: num(cells, 'survivor'),
+      vote: num(cells, 'vote'),
+      sole: num(cells, 'sole'),
+      out: num(cells, 'out'),
+      week: num(cells, 'week'),
+      total: num(cells, 'total'),
     }];
   });
 }

@@ -88,13 +88,14 @@
                 <th scope="col">Team Name</th>
                 <th scope="col">Survivor</th>
                 <th scope="col">Vote</th>
+                <th scope="col">Sole</th>
                 <th scope="col">Out</th>
                 <th scope="col">Week</th>
                 <th scope="col">Total</th>
               </tr>
             </thead>
             <tbody id="standings-body">
-              <tr><td colspan="8" class="standings-loading">Loading…</td></tr>
+              <tr><td colspan="9" class="standings-loading">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -113,11 +114,6 @@
         return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(iso));
       }
 
-      function parsePlayer(raw) {
-        const parts = raw.split(/\n|\t/).map(s => s.trim()).filter(Boolean);
-        return { team: parts[0] || raw, name: parts[1] || '' };
-      }
-
       function renderStandings(data) {
         const tbody = document.getElementById('standings-body');
         const updated = document.getElementById('standings-updated');
@@ -125,20 +121,20 @@
         updated.textContent = `Updated ${formatDate(data.updatedAt)} · refreshes every 30 min`;
 
         if (!data.standings || data.standings.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" class="standings-loading">No standings yet — check back after the next episode.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" class="standings-loading">No standings yet — check back after the next episode.</td></tr>';
           return;
         }
 
-        tbody.innerHTML = data.standings.map((p, i) => {
-          const { team, name } = parsePlayer(p.player);
-          const medal = MEDALS[i] ?? '';
-          const rowClass = i === 0 ? 'rank-gold' : i === 1 ? 'rank-silver' : i === 2 ? 'rank-bronze' : '';
+        tbody.innerHTML = data.standings.map((p) => {
+          const medal = MEDALS[p.rank - 1] ?? '';
+          const rowClass = ['rank-gold', 'rank-silver', 'rank-bronze'][p.rank - 1] ?? '';
           return `<tr class="${rowClass}">
             <td class="rank-cell">${medal || p.rank}</td>
-            <td class="name-cell">${escHtml(name)}</td>
-            <td class="team-cell">${escHtml(team)}</td>
+            <td class="name-cell">${escHtml(p.player)}</td>
+            <td class="team-cell">${escHtml(p.team)}</td>
             <td>${p.survivor}</td>
             <td>${p.vote}</td>
+            <td>${p.sole}</td>
             <td>${p.out}</td>
             <td>${p.week}</td>
             <td class="total-cell">${p.total}</td>
@@ -157,7 +153,7 @@
           renderStandings(await res.json());
         } catch {
           document.getElementById('standings-body').innerHTML =
-            '<tr><td colspan="8" class="standings-loading">Could not load standings — try refreshing.</td></tr>';
+            '<tr><td colspan="9" class="standings-loading">Could not load standings — try refreshing.</td></tr>';
           document.getElementById('standings-updated').textContent = '';
         }
       }
