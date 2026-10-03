@@ -3,3 +3,5 @@ node_modules
 .DS_Store
 .Rhistory
 data/*.json
+.dev.vars
+.wrangler

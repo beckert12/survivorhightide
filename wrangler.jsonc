@@ -1,0 +1,15 @@
+{
+  "name": "survivor-high-tide",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "vars": {
+    "PODCAST_RSS_URL": "https://anchor.fm/s/fab26970/podcast/rss"
+  },
+  "observability": { "enabled": true }
+}
