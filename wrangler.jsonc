@@ -9,7 +9,8 @@
     "not_found_handling": "404-page"
   },
   "vars": {
-    "PODCAST_RSS_URL": "https://anchor.fm/s/fab26970/podcast/rss"
+    "PODCAST_RSS_URL": "https://anchor.fm/s/fab26970/podcast/rss",
+    "FANTASY_FALLBACK_URL": "https://survivor-high-tide.onrender.com/api/fantasy-standings"
   },
   "observability": { "enabled": true }
 }

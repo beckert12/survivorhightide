@@ -57,6 +57,11 @@ function parseStandingsHtml(html) {
 
 async function loadFantasyStandings(env) {
   const { FANTASY_EMAIL: email, FANTASY_PASSWORD: password } = env;
+  // Until the login secrets are added on Cloudflare, borrow standings from the old Render server
+  if ((!email || !password) && env.FANTASY_FALLBACK_URL) {
+    const fallback = await fetch(env.FANTASY_FALLBACK_URL, { headers: { 'User-Agent': UA } });
+    if (fallback.ok) return fallback.json();
+  }
   if (!email || !password) {
     throw Object.assign(new Error('Fantasy credentials not configured. Add FANTASY_EMAIL and FANTASY_PASSWORD as Worker secrets.'), { status: 503 });
   }
