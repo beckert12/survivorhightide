@@ -1,6 +1,10 @@
 {
   "name": "survivor-high-tide",
   "main": "worker/index.js",
+  "routes": [
+    { "pattern": "survivorhightide.com", "custom_domain": true },
+    { "pattern": "www.survivorhightide.com", "custom_domain": true }
+  ],
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./public",
