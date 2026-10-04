@@ -2,56 +2,27 @@
 
 Landing page and episode repository for the Survivor High Tide podcast.
 
-## Features
+## How it works
 
-- Responsive podcast landing page
-- Host/photo and logo asset slots
-- Latest episode feature area
-- Episode repository loaded from the podcast RSS feed
-- Native audio players for RSS enclosure audio
-- Express API endpoint that avoids browser RSS/CORS issues
+- Static pages, styles, and images live in `public/` and are served by Cloudflare.
+- `worker/index.js` is a Cloudflare Worker that handles the API routes:
+  - `/episodes.json` (and `/api/episodes`) reads the podcast RSS feed.
+  - `/api/fantasy-standings` logs in to Fantasy Survivor Game and reads the league standings.
+  - Both responses are cached at Cloudflare's edge (15 and 30 minutes).
+- `wrangler.jsonc` holds the Worker config, including the survivorhightide.com custom domain.
+
+## Deploying
+
+Pushes to `main` deploy automatically through Cloudflare Workers Builds.
+
+The fantasy login lives in Cloudflare as Worker secrets `FANTASY_EMAIL` and `FANTASY_PASSWORD`
+(Workers & Pages → survivor-high-tide → Settings → Runtime variables and secrets).
 
 ## Local Development
 
-Install dependencies:
-
 ```bash
 npm install
+npm run dev
 ```
 
-Start the server:
-
-```bash
-npm start
-```
-
-Open:
-
-```text
-http://localhost:3000
-```
-
-## RSS Feed
-
-The default podcast RSS feed is:
-
-```text
-https://anchor.fm/s/fab26970/podcast/rss
-```
-
-To override it in production, set:
-
-```text
-PODCAST_RSS_URL=https://example.com/podcast/rss
-```
-
-## Deploying to Render
-
-Create a Render Web Service connected to this repo with:
-
-```text
-Build Command: npm install
-Start Command: npm start
-```
-
-The app reads `process.env.PORT`, so it works with Render's assigned port automatically.
+The fantasy standings need a `.dev.vars` file with `FANTASY_EMAIL` and `FANTASY_PASSWORD` to work locally.
